@@ -44,7 +44,9 @@ func Destroy() {
 	evalShutdown()
 }
 
-func FindMoves(board TanBoard, dice [2]int, player int, scoreMoves bool, cubeful bool) (MoveList, error) {
+func FindMoves(board TanBoard, dice [2]int, player int, scoreMoves bool, cubeful bool, plies int) (MoveList, error) {
+    if plies < 0 { plies = 0 }
+    if plies > 4 { plies = 4 }
 
 	if scoreMoves {
 		var pml = _MoveList{}
@@ -69,7 +71,7 @@ func FindMoves(board TanBoard, dice [2]int, player int, scoreMoves bool, cubeful
 		}
 		var pec = &_EvalContext{
 			fCubeful:       cubeful,
-			nPlies:         2,
+            nPlies:         plies,
 			fUsePrune:      true,
 			fDeterministic: true,
 			rNoise:         0,

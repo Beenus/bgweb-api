@@ -24,9 +24,9 @@ func GetMoves(args openapi.MoveArgs) ([]openapi.Move, error) {
 	var maxMoves = fromPtr(args.MaxMoves, 9999)
 	var scoreMoves = fromPtr(args.ScoreMoves, true)
 	var cubeful = fromPtr(args.Cubeful, false)
+    var plies = fromPtr(args.Plies, 1)
 
-	var pml, err = gnubg.FindMoves(board, [2]int{dice[0], dice[1]}, player, scoreMoves, cubeful)
-
+    var pml, err = gnubg.FindMoves(board, [2]int{dice[0], dice[1]}, player, scoreMoves, cubeful, plies)
 	if err != nil {
 		return nil, fmt.Errorf("error in gnubg.FindMoves(): %v", err)
 	}
@@ -52,7 +52,7 @@ func GetMoves(args openapi.MoveArgs) ([]openapi.Move, error) {
 				Evaluation: &openapi.Evaluation{
 					Info: &openapi.EvalInfo{
 						Cubeful: evalInfo.Cubeful,
-						Plies:   evalInfo.Plies + 1,
+						Plies:   evalInfo.Plies,
 					},
 					Eq:   outputEquity(move.GetEquity()),
 					Diff: outputEquityDiff(move.GetEquity(), topMove.GetEquity()),

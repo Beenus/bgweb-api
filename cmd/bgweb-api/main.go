@@ -35,6 +35,29 @@ func main() {
 	// Log all requests
 	e.Use(echomiddleware.Logger())
 
+	// ВАЖНО: CORS должен быть ДО /api/v1 валидатора, чтобы OPTIONS (preflight) не ловил 400
+	e.Use(echomiddleware.CORSWithConfig(echomiddleware.CORSConfig{
+		AllowOrigins: []string{
+			"http://localhost:5173",
+		},
+		AllowMethods: []string{
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+			http.MethodOptions,
+		},
+		AllowHeaders: []string{
+			echo.HeaderOrigin,
+			echo.HeaderContentType,
+			echo.HeaderAccept,
+			echo.HeaderAuthorization,
+		},
+		// Если используешь cookies/credentials на фронте — раскомментируй и не ставь AllowOrigins: ["*"]
+		// AllowCredentials: true,
+	}))
+
 	v1 := e.Group("/api/v1")
 	{
 		// Check all requests against the OpenAPI schema.

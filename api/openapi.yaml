@@ -68,6 +68,13 @@ components:
           type: boolean
           description: Whether or not to calculate equities for each available move. Takes longer.
           default: true
+        plies:
+          type: integer
+          description: Search depth in plies (GNU Backgammon). Higher = stronger but slower.
+          minimum: 0
+          maximum: 4
+          default: 1
+          example: 2
     Board:
       type: object
       required:
