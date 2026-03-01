@@ -52,7 +52,7 @@ func GetMoves(args openapi.MoveArgs) ([]openapi.Move, error) {
 				Evaluation: &openapi.Evaluation{
 					Info: &openapi.EvalInfo{
 						Cubeful: evalInfo.Cubeful,
-						Plies:   evalInfo.Plies,
+						Plies:   evalInfo.Plies + 1,
 					},
 					Eq:   outputEquity(move.GetEquity()),
 					Diff: outputEquityDiff(move.GetEquity(), topMove.GetEquity()),
